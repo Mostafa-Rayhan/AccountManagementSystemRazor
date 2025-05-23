@@ -17,6 +17,13 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 builder.Services.AddRazorPages();
 
+// Add custom services
+builder.Services.AddScoped<DatabaseHelper>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<VoucherService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<ExcelExportService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
