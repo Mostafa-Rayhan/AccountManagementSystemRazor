@@ -16,7 +16,18 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddRazorPages();
+//builder.Services.AddRazorPages();
+
+builder.Services.AddRazorPages(options => {
+    // Route for all pages in Account folder
+    options.Conventions.AddPageRoute("/Account/AccountPage", "accounts");
+
+    // Custom route with parameter constraint
+    //options.Conventions.AddPageRoute("/Voucher/Details", "transactions/{id:int}");
+
+    // Set root URL
+    options.Conventions.AddPageRoute("/Index", "");
+});
 
 // Add custom services
 builder.Services.AddScoped<DatabaseHelper>();
