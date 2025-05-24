@@ -1,4 +1,5 @@
 using AccountManagementSystem.Data;
+using AccountManagementSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +23,7 @@ builder.Services.AddScoped<DatabaseHelper>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<VoucherService>();
 builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<ExcelExportService>();
+//builder.Services.AddScoped<ExcelExportService>();
 
 var app = builder.Build();
 

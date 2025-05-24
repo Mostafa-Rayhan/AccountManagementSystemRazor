@@ -20,8 +20,8 @@ namespace AccountManagementSystem.Pages
             try
             {
                 var parameters = new SqlParameter[] { };
-                var result = _dbHelper.ExecuteStoredProcedure("sp_GetAccountTree", parameters);
-                Message = $"Connection successful! Found {result.Rows.Count} accounts.";
+                //var result = _dbHelper.ExecuteStoredProcedure("sp_GetAccountTree", parameters);
+                //Message = $"Connection successful! Found {result.Rows.Count} accounts.";
             }
             catch (Exception ex)
             {

@@ -1,0 +1,25 @@
+﻿@using AccountManagementSystem.Models.Account
+@model ChartOfAccount
+
+<div class="tree-node mb-2">
+    <div class="d-flex align-items-center">
+        <button class="btn btn-sm btn-link" onclick="toggleChildren(this)">
+            <i class="fas fa-chevron-@(Model.Level == 0 ? "right" : "down")"></i>
+        </button>
+        <span class="me-2">@Model.AccountCode - @Model.AccountName</span>
+        <div class="ms-auto">
+            @if (User.IsInRole("Admin") || User.IsInRole("Accountant"))
+            {
+                <a asp-page="./Edit" asp-route-id="@Model.AccountId" class="btn btn-sm btn-warning">Edit</a>
+                <a asp-page="./Delete" asp-route-id="@Model.AccountId" class="btn btn-sm btn-danger">Delete</a>
+            }
+        </div>
+    </div>
+
+    <div class="tree-children ms-4" style="display: @(Model.Level == 0 ? "none" : "block")">
+        @* @foreach (var child in Model.Children)
+        {
+            <partial name="_AccountNode" model="child" />
+        } *@
+    </div>
+</div>

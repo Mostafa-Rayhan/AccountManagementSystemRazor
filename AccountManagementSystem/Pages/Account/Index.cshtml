@@ -1,0 +1,37 @@
+﻿@page
+@model AccountManagementSystem.Pages.Account.IndexModel
+@{
+    ViewData["Title"] = "Chart of Accounts";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>@ViewData["Title"]</h2>
+        @if (User.IsInRole("Admin") || User.IsInRole("Accountant"))
+        {
+            <a asp-page="Create" class="btn btn-primary">Create New Account</a>
+        }
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div id="accountTree">
+                @foreach (var account in Model.AccountTree.Where(a => a.Level == 0))
+                {
+                    <partial name="_AccountNode" model="account" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleChildren(button) {
+            const childrenDiv = button.nextElementSibling;
+            childrenDiv.style.display = childrenDiv.style.display === 'none' ? 'block' : 'none';
+            button.querySelector('i').classList.toggle('fa-chevron-right');
+            button.querySelector('i').classList.toggle('fa-chevron-down');
+        }
+    </script>
+}
