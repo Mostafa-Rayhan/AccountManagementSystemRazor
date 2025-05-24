@@ -23,7 +23,7 @@ builder.Services.AddRazorPages(options => {
     options.Conventions.AddPageRoute("/Account/AccountPage", "accounts");
 
     // Custom route with parameter constraint
-    //options.Conventions.AddPageRoute("/Voucher/Details", "transactions/{id:int}");
+    options.Conventions.AddPageRoute("/Voucher/Details", "transactions/{id:int}");
 
     // Set root URL
     options.Conventions.AddPageRoute("/Index", "");

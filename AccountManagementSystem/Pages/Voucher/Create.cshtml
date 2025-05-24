@@ -1,0 +1,129 @@
+﻿@page
+@model AccountManagementSystem.Pages.Voucher.CreateModel
+@{
+    ViewData["Title"] = "Create Voucher";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <form method="post">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label asp-for="Voucher.VoucherType" class="form-label"></label>
+                <select asp-for="Voucher.VoucherType" class="form-select">
+                    <option value="Journal">Journal Voucher</option>
+                    <option value="Payment">Payment Voucher</option>
+                    <option value="Receipt">Receipt Voucher</option>
+                </select>
+                <span asp-validation-for="Voucher.VoucherType" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Voucher.VoucherDate" class="form-label"></label>
+                <input asp-for="Voucher.VoucherDate" class="form-control" />
+                <span asp-validation-for="Voucher.VoucherDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Voucher.ReferenceNo" class="form-label"></label>
+                <input asp-for="Voucher.ReferenceNo" class="form-control" />
+                <span asp-validation-for="Voucher.ReferenceNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Voucher.Narration" class="form-label"></label>
+            <textarea asp-for="Voucher.Narration" class="form-control" rows="3"></textarea>
+        </div>
+
+        <h4>Voucher Details</h4>
+        <div id="voucherDetails">
+            @for (var i = 0; i < Model.Voucher.Details.Count; i++)
+            {
+                <div class="detail-row row mb-3">
+                    <div class="col-md-5">
+                        <select asp-for="Voucher.Details[i].AccountId" class="form-select">
+                            <option value="">Select Account</option>
+                            @foreach (var account in Model.Accounts)
+                            {
+                                <option value="@account.AccountId">@account.AccountCode - @account.AccountName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Voucher.Details[i].AccountId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="Voucher.Details[i].Amount" class="form-control" />
+                        <span asp-validation-for="Voucher.Details[i].Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-2">
+                        <select asp-for="Voucher.Details[i].IsDebit" class="form-select">
+                            <option value="true">Debit</option>
+                            <option value="false">Credit</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger remove-detail">Remove</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="mb-4">
+            <button type="button" id="addDetail" class="btn btn-secondary">Add Detail</button>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Voucher</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailsContainer = document.getElementById('voucherDetails');
+            const addButton = document.getElementById('addDetail');
+
+            addButton.addEventListener('click', function() {
+                const index = document.querySelectorAll('.detail-row').length;
+                const template = `
+                    <div class="detail-row row mb-3">
+                        <div class="col-md-5">
+                            <select class="form-select" data-val="true"
+                                name="Voucher.Details[${index}].AccountId">
+                                <option value="">Select Account</option>
+                                @foreach (var account in Model.Accounts)
+                                {
+                                        <option value="@account.AccountId">@account.AccountCode - @account.AccountName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" step="0.01"
+                                name="Voucher.Details[${index}].Amount" />
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="Voucher.Details[${index}].IsDebit">
+                                <option value="true">Debit</option>
+                                <option value="false">Credit</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger remove-detail">Remove</button>
+                        </div>
+                    </div>
+                `;
+
+                detailsContainer.insertAdjacentHTML('beforeend', template);
+            });
+
+            detailsContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-detail')) {
+                    e.target.closest('.detail-row').remove();
+                }
+            });
+        });
+    </script>
+}
